@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_arch/presentation/router/app_router.dart';
 
 void main() {
@@ -10,13 +9,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-      providers: <RepositoryProvider>[],
-      child: MultiBlocProvider(
-        providers: <BlocProvider>[],
-        child: MyMaterialApp(),
-      ),
-    );
+    return MyMaterialApp();
   }
 }
 
