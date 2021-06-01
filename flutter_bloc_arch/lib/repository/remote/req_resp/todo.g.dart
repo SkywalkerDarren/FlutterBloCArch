@@ -6,8 +6,8 @@ part of 'todo.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Todo _$TodoFromJson(Map<String, dynamic> json) {
-  return Todo(
+TodoResponse _$TodoResponseFromJson(Map<String, dynamic> json) {
+  return TodoResponse(
     userId: json['userId'] as int,
     id: json['id'] as int,
     title: json['title'] as String,
@@ -15,7 +15,8 @@ Todo _$TodoFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$TodoToJson(Todo instance) => <String, dynamic>{
+Map<String, dynamic> _$TodoResponseToJson(TodoResponse instance) =>
+    <String, dynamic>{
       'userId': instance.userId,
       'id': instance.id,
       'title': instance.title,

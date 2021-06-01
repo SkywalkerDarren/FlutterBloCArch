@@ -16,19 +16,19 @@ class _TodosApi implements TodosApi {
   String? baseUrl;
 
   @override
-  Future<List<Todo>> getTodos() async {
+  Future<List<TodoResponse>> getTodos() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<List<dynamic>>(_setStreamType<List<Todo>>(
-        Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
-            .compose(_dio.options, '/todos',
-                queryParameters: queryParameters, data: _data)
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<List<dynamic>>(
+        _setStreamType<List<TodoResponse>>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/todos',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     var value = _result.data!
-        .map((dynamic i) => Todo.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => TodoResponse.fromJson(i as Map<String, dynamic>))
         .toList();
-    print('asdf: $_result');
     return value;
   }
 

@@ -10,5 +10,5 @@ abstract class TodosApi {
   factory TodosApi({Dio? dio}) => _TodosApi(dio ?? HttpBase.dio);
 
   @GET("/todos")
-  Future<List<Todo>> getTodos();
+  Future<List<TodoResponse>> getTodos();
 }
