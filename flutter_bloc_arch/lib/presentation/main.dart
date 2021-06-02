@@ -1,8 +1,28 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_arch/presentation/router/app_router.dart';
+import 'package:flutter_bloc_arch/repository/local/app_database.dart';
 
 void main() {
-  runApp(MyApp());
+  runZonedGuarded(() async {
+    FlutterError.onError = (details) {
+      log(
+        'flutter onError',
+        error: details.exception,
+        stackTrace: details.stack,
+      );
+    };
+    await AppDatabase.initDatabase();
+    runApp(MyApp());
+  }, (error, stackTrace) {
+    log(
+      'flutter zoned error',
+      error: error,
+      stackTrace: stackTrace,
+    );
+  });
 }
 
 class MyApp extends StatelessWidget {

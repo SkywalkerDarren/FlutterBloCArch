@@ -17,7 +17,7 @@ abstract class AppDatabase extends FloorDatabase {
         await $FloorAppDatabase.databaseBuilder('app_database.db').build();
   }
 
-  AppDatabase get appDatabase {
+  static AppDatabase get instance {
     if (_appDatabase == null) {
       throw Exception("you must call initDatabase() first");
     }

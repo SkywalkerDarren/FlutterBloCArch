@@ -11,4 +11,10 @@ abstract class TodoDao {
 
   @insert
   Future<void> insertTodo(TodoEntity entity);
+
+  @insert
+  Future<void> insertAllTodo(List<TodoEntity> entities);
+
+  @delete
+  Future<void> deleteTodo(TodoEntity entity);
 }

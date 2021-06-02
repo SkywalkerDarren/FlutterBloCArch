@@ -107,6 +107,17 @@ class _$TodoDao extends TodoDao {
                   'title': item.title,
                   'completed': item.completed ? 1 : 0
                 },
+            changeListener),
+        _todoEntityDeletionAdapter = DeletionAdapter(
+            database,
+            'TodoEntity',
+            ['id'],
+            (TodoEntity item) => <String, Object?>{
+                  'userId': item.userId,
+                  'id': item.id,
+                  'title': item.title,
+                  'completed': item.completed ? 1 : 0
+                },
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -116,6 +127,8 @@ class _$TodoDao extends TodoDao {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<TodoEntity> _todoEntityInsertionAdapter;
+
+  final DeletionAdapter<TodoEntity> _todoEntityDeletionAdapter;
 
   @override
   Future<List<TodoEntity>> findAllTodos() async {
@@ -143,5 +156,16 @@ class _$TodoDao extends TodoDao {
   @override
   Future<void> insertTodo(TodoEntity entity) async {
     await _todoEntityInsertionAdapter.insert(entity, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertAllTodo(List<TodoEntity> entities) async {
+    await _todoEntityInsertionAdapter.insertList(
+        entities, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteTodo(TodoEntity entity) async {
+    await _todoEntityDeletionAdapter.delete(entity);
   }
 }
