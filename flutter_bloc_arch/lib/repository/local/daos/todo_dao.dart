@@ -6,6 +6,9 @@ abstract class TodoDao {
   @Query('SELECT * FROM TodoEntity')
   Future<List<TodoEntity>> findAllTodos();
 
+  @Query('SELECT * FROM TodoEntity')
+  Stream<List<TodoEntity>> findAllTodosAsStream();
+
   @Query('SELECT * FROM TodoEntity WHERE id = :id')
   Stream<TodoEntity?> findTodoById(int id);
 

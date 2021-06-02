@@ -141,6 +141,18 @@ class _$TodoDao extends TodoDao {
   }
 
   @override
+  Stream<List<TodoEntity>> findAllTodosAsStream() {
+    return _queryAdapter.queryListStream('SELECT * FROM TodoEntity',
+        mapper: (Map<String, Object?> row) => TodoEntity(
+            row['userId'] as int,
+            row['id'] as int,
+            row['title'] as String,
+            (row['completed'] as int) != 0),
+        queryableName: 'TodoEntity',
+        isView: false);
+  }
+
+  @override
   Stream<TodoEntity?> findTodoById(int id) {
     return _queryAdapter.queryStream('SELECT * FROM TodoEntity WHERE id = ?1',
         mapper: (Map<String, Object?> row) => TodoEntity(

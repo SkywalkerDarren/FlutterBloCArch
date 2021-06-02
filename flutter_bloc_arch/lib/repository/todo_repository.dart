@@ -25,6 +25,8 @@ class TodoRepository {
     return _instance!;
   }
 
+  Stream<List<TodoEntity>> get todosStream => todoDao.findAllTodosAsStream();
+
   Future<Result<List<TodoEntity>>> fetchTodos() async {
     try {
       final todos = await todosApi.getTodos();
