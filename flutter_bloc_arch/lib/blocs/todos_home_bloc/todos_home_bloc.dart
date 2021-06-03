@@ -10,8 +10,11 @@ part 'todos_home_state.dart';
 
 class TodosHomeBloc extends Bloc<TodosHomeEvent, TodosHomeState> {
   StreamSubscription? _todosSubscription;
-  TodosHomeBloc(TodoRepository todoRepository) : super(TodosHomeInitial()) {
-    _todosSubscription = todoRepository.todosStream.listen((todos) {
+
+  TodosHomeBloc({TodoRepository? todoRepository}) : super(TodosHomeInitial()) {
+    _todosSubscription = (todoRepository ?? TodoRepository.instance())
+        .todosStream
+        .listen((todos) {
       add(TodoLocalUpdateEvent(todos));
     });
   }

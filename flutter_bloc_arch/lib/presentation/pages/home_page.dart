@@ -1,48 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_arch/blocs/todos_home_bloc/todos_home_bloc.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   HomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _HomePageState createState() => _HomePageState();
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(providers: [
+      BlocProvider(
+        create: (_) => TodosHomeBloc(),
+      ),
+    ], child: HomeView(title: title));
+  }
 }
 
-class _HomePageState extends State<HomePage> {
-  int _counter = 0;
+class HomeView extends StatelessWidget {
+  HomeView({Key? key, required this.title}) : super(key: key);
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+        child: Builder(builder: (context) {
+          final todos =
+              context.select<TodosHomeBloc, List<TodoViewState>>((bloc) {
+            final state = bloc.state;
+            if (state is TodosHomeUpdated) {
+              return state.todos;
+            } else {
+              return [];
+            }
+          });
+          return ListView.builder(
+            itemCount: todos.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                title: Text(todos[index].title),
+              );
+            },
+          );
+        }),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
