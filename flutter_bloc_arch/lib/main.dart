@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc_arch/presentation/router/app_router.dart';
 import 'package:flutter_bloc_arch/repository/local/app_database.dart';
 
-void main() async {
-  await AppDatabase.initDatabase();
-  await runZonedGuarded(() async {
+void main() {
+  runZonedGuarded(() async {
     FlutterError.onError = (details) {
       log(
         'flutter onError',
@@ -15,6 +14,8 @@ void main() async {
         stackTrace: details.stack,
       );
     };
+    WidgetsFlutterBinding.ensureInitialized();
+    await AppDatabase.initDatabase();
     runApp(MyApp());
   }, (error, stackTrace) {
     log(
