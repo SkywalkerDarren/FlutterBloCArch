@@ -12,10 +12,10 @@ abstract class TodoDao {
   @Query('SELECT * FROM TodoEntity WHERE id = :id')
   Stream<TodoEntity?> findTodoById(int id);
 
-  @insert
+  @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertTodo(TodoEntity entity);
 
-  @insert
+  @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertAllTodo(List<TodoEntity> entities);
 
   @delete

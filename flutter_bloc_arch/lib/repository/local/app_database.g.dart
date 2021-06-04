@@ -167,13 +167,14 @@ class _$TodoDao extends TodoDao {
 
   @override
   Future<void> insertTodo(TodoEntity entity) async {
-    await _todoEntityInsertionAdapter.insert(entity, OnConflictStrategy.abort);
+    await _todoEntityInsertionAdapter.insert(
+        entity, OnConflictStrategy.replace);
   }
 
   @override
   Future<void> insertAllTodo(List<TodoEntity> entities) async {
     await _todoEntityInsertionAdapter.insertList(
-        entities, OnConflictStrategy.abort);
+        entities, OnConflictStrategy.replace);
   }
 
   @override

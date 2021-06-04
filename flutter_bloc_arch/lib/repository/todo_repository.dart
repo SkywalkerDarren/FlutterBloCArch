@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc_arch/core/utils/result.dart';
 import 'package:flutter_bloc_arch/repository/local/app_database.dart';
 import 'package:flutter_bloc_arch/repository/local/daos/todo_dao.dart';
@@ -37,8 +39,19 @@ class TodoRepository {
       await todoDao.insertAllTodo(todoEntities);
       return Result.success(todoEntities);
     } on Exception catch (e) {
-      return Result.error(exception: e);
+      log(
+        'exception',
+        error: e,
+      );
+      return Result.error(
+        exception: e,
+      );
     } on Error catch (e) {
+      log(
+        'error',
+        error: e,
+        stackTrace: e.stackTrace,
+      );
       return Result.error(error: e);
     }
   }

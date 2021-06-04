@@ -7,8 +7,10 @@ part 'todos_api.g.dart';
 
 @RestApi(baseUrl: HttpBase.baseUrl)
 abstract class TodosApi {
-  factory TodosApi({Dio? dio}) => _TodosApi(dio ?? HttpBase.dio);
+  factory TodosApi({Dio? dio}) => _TodosApi(dio ?? HttpBase.mockDio);
 
-  @GET("/todos")
+  static const todos = '/todos';
+
+  @GET(todos)
   Future<List<TodoResponse>> getTodos();
 }

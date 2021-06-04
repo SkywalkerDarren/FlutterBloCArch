@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc_arch/repository/remote/interceptors/mock_interceptor.dart';
 
 import 'interceptors/logging_interceptor.dart';
 
@@ -13,6 +14,13 @@ class HttpBase {
     ..interceptors.addAll([
       RequestLoggingInterceptor(),
       // place your interceptors to here
+      ResponseLoggingInterceptor()
+    ]);
+
+  static final Dio mockDio = Dio()
+    ..interceptors.addAll([
+      RequestLoggingInterceptor(),
+      MockInterceptor(),
       ResponseLoggingInterceptor()
     ]);
 }
