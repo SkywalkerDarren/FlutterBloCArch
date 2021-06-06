@@ -1,9 +1,12 @@
 import 'package:dio/dio.dart';
 
 class MockInterceptor extends Interceptor {
+  static const MOCK_TAG = 'mock_tag';
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if (options.path == 'TodosApi.todos') {
+      print('mocking path: ${options.path}');
+      options.extra[MOCK_TAG] = true;
       handler.resolve(Response(
         requestOptions: options,
         data: [

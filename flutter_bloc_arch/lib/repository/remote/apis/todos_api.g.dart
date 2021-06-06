@@ -8,7 +8,7 @@ part of 'todos_api.dart';
 
 class _TodosApi implements TodosApi {
   _TodosApi(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'https://jsonplaceholder.typicode.com';
+    baseUrl ??= 'https://baseTodoUrl.placeholder.com';
   }
 
   final Dio _dio;
@@ -17,7 +17,7 @@ class _TodosApi implements TodosApi {
 
   @override
   Future<List<TodoResponse>> getTodos() async {
-    const _extra = <String, dynamic>{};
+    const _extra = <String, dynamic>{'replace_host': true};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<List<dynamic>>(
