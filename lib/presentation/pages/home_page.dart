@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_arch/blocs/todos_home_bloc/todos_home_bloc.dart';
@@ -42,74 +40,32 @@ class HomeView extends StatelessWidget {
               return [];
             }
           });
-          return TestWidget(todos);
+          return ListView.builder(
+            itemCount: todos.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ShouldRebuild<TodoItemWidget>(
+                child: TodoItemWidget(todos[index]),
+                shouldRebuild: (a, b) {
+                  return a.todo != b.todo;
+                },
+              );
+            },
+          );
         }),
       ),
     );
   }
 }
 
-class TestWidget extends StatefulWidget {
-  final List<TodoViewState> todos;
-
-  TestWidget(this.todos);
-
-  @override
-  _TestWidgetState createState() => _TestWidgetState();
-}
-
-class _TestWidgetState extends State<TestWidget> {
-  Timer? _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(Duration(seconds: 3), (_) {
-      print("try update");
-      setState(() {});
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: widget.todos.length,
-      itemBuilder: (BuildContext context, int index) {
-        return ShouldRebuild(
-          child: TestUpdateWidget(widget.todos[index]),
-          shouldRebuild: (a, b) {
-            if (a is TestUpdateWidget && b is TestUpdateWidget)
-              return a.todo != b.todo;
-            else
-              return true;
-          },
-        );
-      },
-    );
-  }
-}
-
-class TestUpdateWidget extends StatefulWidget {
+class TodoItemWidget extends StatelessWidget {
   final TodoViewState todo;
 
-  TestUpdateWidget(this.todo);
+  TodoItemWidget(this.todo);
 
-  @override
-  _TestUpdateWidgetState createState() => _TestUpdateWidgetState();
-}
-
-class _TestUpdateWidgetState extends State<TestUpdateWidget> {
   @override
   Widget build(BuildContext context) {
-    print('update: ${widget.todo.title}');
     return ListTile(
-      title: Text(widget.todo.title),
+      title: Text(todo.title),
     );
   }
 }
